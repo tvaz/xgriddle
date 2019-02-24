@@ -1,45 +1,34 @@
-GRID_SIZE = 5
-ACROSS = 0
-DOWN = 1
+from grid import Grid
 
-grid = [None]*GRID_SIZE
-for x in range(0, GRID_SIZE):
-    grid[x] = [None]*GRID_SIZE
+grid = Grid()
 
-def show(grid):
-    print("- " * (GRID_SIZE+2))
-    for row in grid:
-        print('|', end=' ')
-        for box in row:
-            if box is None:
-                print(u"\u25A0", end=' ')
-            else:
-                print(box, end=' ')
-        print('|')
-    print("- " * (GRID_SIZE+2))
+print("This is an example of filling the grid acrossways.")
 
-def fill(grid, word, start, end):
-    filltype = None
-    if start[0] == end[0]:
-        filltype = ACROSS
-    elif start[1] == end[1]:
-        filltype = DOWN
-    else:
-        raise ValueError("Coords don't compute")
+grid.fill_across("FLAP", (0, 0))
+grid.fill_across("ROSE", (1, 0))
+grid.fill_across("ARTSY", (2, 0))
+grid.fill_across("DATE",  (3, 1))
+grid.fill_across("EROS",  (4, 1))
+print(grid)
 
-    cursor = start
+print("Downways...")
+grid.fill_down("FRA", (0, 0))
+grid.fill_down("LORDE", (0, 1))
+grid.fill_down("ASTAR", (0, 2))
+grid.fill_down("PESTO",  (0, 3))
+grid.fill_down("YES",  (2, 4))
 
-    if filltype == ACROSS:
-        for w in word:
-            grid[cursor[0]][cursor[1]] = w
-            cursor = (cursor[0], cursor[1]+1)
+print(grid)
 
-    if filltype == DOWN:
-        pass
+print("You can also mutate directly: ")
+for i in range(0, 5):
+    grid[2][i] = None #Erases the word at row 2
+print(grid)
 
-fill(grid, "FLAP",  (0, 0), (0,3))
-fill(grid, "ROSE",  (1, 0), (1,3))
-fill(grid, "ARTSY", (2, 0), (2,4))
-fill(grid, "DATE",  (3, 1), (3,4))
-fill(grid, "EROS",  (4, 1), (4,4))
-show(grid)
+#TODO
+# - Error checking (especially for out of bounds)
+# Validation:
+#   - is grid already filled in that spot
+#- check if new word is a valid fill
+# - import a list of <5 letter words
+#    - for testing generation/validaton of grids
